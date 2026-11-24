@@ -47,6 +47,10 @@ export class PanelVisibilityManager {
     constructor(settings) {
         const primary = Main.layoutManager.primaryMonitor ?? Main.layoutManager.monitors[0];
         this._base_y = primary ? primary.y : 0;
+        this._lastMonitorWidth = primary ? primary.width : 0;
+        this._lastMonitorHeight = primary ? primary.height : 0;
+        this._lastMonitorX = primary ? primary.x : 0;
+        this._lastMonitorY = primary ? primary.y : 0;
         this._settings = settings;
         this._preventHide = false;
         this._showInOverview = true;
@@ -123,6 +127,14 @@ export class PanelVisibilityManager {
         DEBUG("hide(" + trigger + ")");
         if(this._preventHide) return;
 
+        const primary = Main.layoutManager.primaryMonitor ?? Main.layoutManager.monitors[0];
+        if (primary) {
+            this._base_y = primary.y;
+            PanelBox.set_size(primary.width, -1);
+            if (PanelBox.x !== primary.x)
+                PanelBox.x = primary.x;
+        }
+
         let anchor_y = PanelBox.get_pivot_point()[1],
             delta_y = -PanelBox.height;
         if(anchor_y < 0) delta_y = -delta_y;
@@ -185,6 +197,14 @@ export class PanelVisibilityManager {
         if(this._animationActive) {
             PanelBox.remove_all_transitions();
             this._animationActive = false;
+        }
+
+        const primary = Main.layoutManager.primaryMonitor ?? Main.layoutManager.monitors[0];
+        if (primary) {
+            this._base_y = primary.y;
+            PanelBox.set_size(primary.width, -1);
+            if (PanelBox.x !== primary.x)
+                PanelBox.x = primary.x;
         }
 
         this._updateHotCorner(false);
@@ -585,16 +605,32 @@ export class PanelVisibilityManager {
             [
                 Main.layoutManager,
                 'monitors-changed',
-                () => {
-                    const primary = Main.layoutManager.primaryMonitor ?? Main.layoutManager.monitors[0];
-                    this._base_y = primary ? primary.y : 0;
-                    this._updateStaticBox();
-                    this._updateSettingsMouseSensitive();
-                    this._touchManager?.onMonitorsChanged();
-                    // LayoutManager._updateBoxes() has just moved PanelBox
-                    // back on screen: hide it again unless it is held.
-                    this._handleMenus();
-                }
+                () => this._onLayoutOrMonitorsChanged(true)
+            ],
+            [
+                global.display,
+                'workareas-changed',
+                () => this._onLayoutOrMonitorsChanged()
+            ],
+            [
+                global.stage,
+                'notify::width',
+                () => this._onLayoutOrMonitorsChanged()
+            ],
+            [
+                global.stage,
+                'notify::height',
+                () => this._onLayoutOrMonitorsChanged()
+            ],
+            [
+                PanelBox,
+                'notify::allocation',
+                () => this._onLayoutOrMonitorsChanged()
+            ],
+            [
+                PanelBox,
+                'notify::width',
+                () => this._onLayoutOrMonitorsChanged()
             ],
             [
                 this._intellihide,
@@ -610,6 +646,68 @@ export class PanelVisibilityManager {
         );
 
         this._updateIntellihideStatus();
+    }
+
+    _onLayoutOrMonitorsChanged(force = false) {
+        const primary = Main.layoutManager.primaryMonitor ?? Main.layoutManager.monitors[0];
+        if (!primary)
+            return;
+
+        const sizeOrPosChanged = force ||
+            this._lastMonitorWidth !== primary.width ||
+            this._lastMonitorHeight !== primary.height ||
+            this._lastMonitorX !== primary.x ||
+            this._lastMonitorY !== primary.y ||
+            PanelBox.width !== primary.width;
+
+        if (!sizeOrPosChanged)
+            return;
+
+        this._lastMonitorWidth = primary.width;
+        this._lastMonitorHeight = primary.height;
+        this._lastMonitorX = primary.x;
+        this._lastMonitorY = primary.y;
+
+        this._base_y = primary.y;
+        PanelBox.set_size(primary.width, -1);
+        if (PanelBox.x !== primary.x)
+            PanelBox.x = primary.x;
+
+        if (this._panelIsHidden() && !this._preventHide) {
+            let anchor_y = PanelBox.get_pivot_point()[1];
+            let delta_y = -PanelBox.height;
+            if (anchor_y < 0) delta_y = -delta_y;
+            PanelBox.y = this._base_y + delta_y;
+        }
+
+        this._updateStaticBox();
+        this._updateSettingsMouseSensitive();
+        this._touchManager?.onMonitorsChanged();
+
+        this._signalsHandler.disconnectWithLabel('relayoutDebounce');
+        this._signalsHandler.addTimeout('relayoutDebounce', 120, () => {
+            const currentPrimary = Main.layoutManager.primaryMonitor ?? Main.layoutManager.monitors[0];
+            if (!currentPrimary)
+                return GLib.SOURCE_REMOVE;
+
+            this._base_y = currentPrimary.y;
+            PanelBox.set_size(currentPrimary.width, -1);
+            if (PanelBox.x !== currentPrimary.x)
+                PanelBox.x = currentPrimary.x;
+
+            if (this._panelIsHidden() && !this._preventHide) {
+                let anchor_y = PanelBox.get_pivot_point()[1];
+                let delta_y = -PanelBox.height;
+                if (anchor_y < 0) delta_y = -delta_y;
+                PanelBox.y = this._base_y + delta_y;
+            }
+
+            this._updateStaticBox();
+            this._updateSettingsMouseSensitive();
+            this._touchManager?.onMonitorsChanged();
+            this._handleMenus();
+            return GLib.SOURCE_REMOVE;
+        });
     }
 
     _bindSettingsChanges() {

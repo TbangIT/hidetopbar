@@ -374,8 +374,21 @@ export class TouchManager {
     }
 
     onMonitorsChanged() {
+        this._cancelTouchHotCorner();
+        this._refreshGestures();
         this.updateGeometry();
         this.syncVisibility();
+    }
+
+    _refreshGestures() {
+        if (this._unfullscreenGesture) {
+            if (this._unfullscreenNotifyId) {
+                this._unfullscreenGesture.disconnect(this._unfullscreenNotifyId);
+                this._unfullscreenNotifyId = 0;
+            }
+            this._unfullscreenGesture = null;
+        }
+        this._updateUnfullscreenInhibition();
     }
 
     updateGeometry() {
@@ -388,11 +401,11 @@ export class TouchManager {
         const panelH = (PanelBox.height > 20 && PanelBox.height <= 48)
             ? PanelBox.height
             : TOUCH_ZONE_HEIGHT_PX;
-        const zoneH = Math.min(TOUCH_ZONE_HEIGHT_PX, panelH);
+        const zoneH = Math.max(TOUCH_ZONE_HEIGHT_PX, panelH);
 
         if (this._touchSwipeActor) {
-            this._touchSwipeActor.set_position(swipeX, monitor.y - 10);
-            this._touchSwipeActor.set_size(swipeW, zoneH + 10);
+            this._touchSwipeActor.set_position(swipeX, Math.max(0, monitor.y));
+            this._touchSwipeActor.set_size(swipeW, zoneH);
         }
     }
 
@@ -451,8 +464,8 @@ export class TouchManager {
         const panelH = (PanelBox.height > 20 && PanelBox.height <= 48)
             ? PanelBox.height
             : TOUCH_ZONE_HEIGHT_PX;
-        const zoneHeight = Math.min(TOUCH_ZONE_HEIGHT_PX, panelH);
-        return y >= monitor.y - 10 &&
+        const zoneHeight = Math.max(TOUCH_ZONE_HEIGHT_PX, panelH);
+        return y >= monitor.y &&
                y <= monitor.y + zoneHeight &&
                x >= monitor.x + monitor.width * TOUCH_ZONE_X_START &&
                x <= monitor.x + monitor.width * TOUCH_ZONE_X_END;
@@ -584,7 +597,7 @@ export class TouchManager {
             this._touchSwipeActor.reactive = false;
 
         const monitor = this._monitorForTouch();
-        const targetY = monitor ? Math.max(y, monitor.y + 2) : Math.max(y, 2);
+        const targetY = monitor ? Math.min(Math.max(y, monitor.y), monitor.y + monitor.height - 1) : Math.max(y, 0);
         const targetX = monitor ? Math.min(Math.max(x, monitor.x), monitor.x + monitor.width - 1) : Math.max(x, 0);
         const timeUs = GLib.get_monotonic_time();
         try {
@@ -628,7 +641,7 @@ export class TouchManager {
 
         this._replayingTouch = true;
         const monitor = this._monitorForTouch();
-        const targetY = monitor ? Math.max(y, monitor.y + 2) : Math.max(y, 2);
+        const targetY = monitor ? Math.min(Math.max(y, monitor.y), monitor.y + monitor.height - 1) : Math.max(y, 0);
         const targetX = monitor ? Math.min(Math.max(x, monitor.x), monitor.x + monitor.width - 1) : Math.max(x, 0);
         const timeUs = GLib.get_monotonic_time();
         const slot = 0;
@@ -873,9 +886,9 @@ export class TouchManager {
         const monitor = this._monitorForTouch();
         if (!monitor)
             return false;
-        return x >= monitor.x - 10 &&
+        return x >= monitor.x &&
                x <= monitor.x + TOUCH_HOT_CORNER_SIZE &&
-               y >= monitor.y - 10 &&
+               y >= monitor.y &&
                y <= monitor.y + TOUCH_HOT_CORNER_SIZE;
     }
 
