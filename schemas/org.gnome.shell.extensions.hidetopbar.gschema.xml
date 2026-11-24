@@ -115,5 +115,19 @@
         When enabled, the panel will be visible in overview.
       </description>
     </key>
+    <key name="enable-touch-swipe" type="b">
+      <default>true</default>
+      <summary>Enable touch swipe gesture to show panel</summary>
+      <description>
+        When enabled, swiping down from the top edge on a touchscreen temporarily reveals the panel.
+      </description>
+    </key>
+    <key name="enable-touch-dnd-hot-corner" type="b">
+      <default>true</default>
+      <summary>Enable drag and drop hot corner for overview</summary>
+      <description>
+        When enabled, dragging an item to the top-left corner during drag-and-drop triggers the overview.
+      </description>
+    </key>
   </schema>
 </schemalist>

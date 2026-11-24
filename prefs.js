@@ -42,7 +42,9 @@ export default class HideTopBarPreferences extends ExtensionPreferences {
          'show-in-overview',
          'hot-corner',
          'mouse-triggers-overview',
-         'keep-round-corners'
+         'keep-round-corners',
+         'enable-touch-swipe',
+         'enable-touch-dnd-hot-corner',
         ].forEach(function (s) {
             let settings_onoff = builder.get_object(
                 "row_" + s.replace(/-/g, "_")

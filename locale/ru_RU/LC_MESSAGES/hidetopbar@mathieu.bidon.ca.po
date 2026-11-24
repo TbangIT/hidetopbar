@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hidetopbar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-09 19:23+0100\n"
+"POT-Creation-Date: 2026-11-24 11:48+0100\n"
 "PO-Revision-Date: 2026-02-03 14:50+0300\n"
 "Last-Translator: Fraxinus Acer\n"
 "Language-Team: \n"
@@ -57,23 +57,46 @@ msgstr "Порог барьера давления:"
 msgid "Pressure barrier's timeout:"
 msgstr "Интервал барьера давления:"
 
-#: Settings.ui:94 Settings.ui:99
+#: Settings.ui:93
+msgid "Touch & Gestures"
+msgstr ""
+
+#: Settings.ui:97
+msgid "Swipe down to reveal panel"
+msgstr ""
+
+#: Settings.ui:98
+msgid ""
+"Swipe down from top edge on touchscreens to temporarily reveal the panel"
+msgstr ""
+
+#: Settings.ui:104
+msgid "Drag & Drop to top-left corner opens overview"
+msgstr ""
+
+#: Settings.ui:105
+msgid ""
+"Drag an item to the top-left corner to switch to overview during drag and "
+"drop"
+msgstr ""
+
+#: Settings.ui:114 Settings.ui:119
 msgid "Animation"
 msgstr "Анимация"
 
-#: Settings.ui:103
+#: Settings.ui:123
 msgid "Slide animation time when entering/leaving overview:"
 msgstr "Время анимации появления при входе или выходе из обзора:"
 
-#: Settings.ui:117
+#: Settings.ui:137
 msgid "Slide animation time when mouse approaches edge of the screen:"
 msgstr "Время анимации появления, когда мышь приближается к краю экрана:"
 
-#: Settings.ui:134 Settings.ui:139
+#: Settings.ui:154 Settings.ui:159
 msgid "Keyboard shortcuts"
 msgstr "Комбинации клавиши"
 
-#: Settings.ui:143
+#: Settings.ui:163
 msgid ""
 "Key that triggers the bar to be shown (press backspace to deactivate the "
 "shortcut):"
@@ -81,7 +104,7 @@ msgstr ""
 "Клавиша, запускающая отображение панели (нажмите backspace, чтобы отключить "
 "комбинации клавиш):"
 
-#: Settings.ui:183
+#: Settings.ui:203
 msgid ""
 "Delay before the bar rehides after key press (a value of 0 disables the "
 "rehiding):"
@@ -89,18 +112,18 @@ msgstr ""
 "Задержка перед повторным скрытием панели после нажатия клавиши (значение 0 "
 "отключает повторное скрытие):"
 
-#: Settings.ui:197
+#: Settings.ui:217
 msgid "Pressing the shortcut again rehides the panel"
 msgstr "Нажатие клавиш скрывает панель заново"
 
-#: Settings.ui:206 Settings.ui:211
+#: Settings.ui:226 Settings.ui:231
 msgid "Intellihide"
 msgstr "Интеллектуальное скрытие"
 
-#: Settings.ui:215
+#: Settings.ui:235
 msgid "Only hide panel when a window takes the space"
 msgstr "Скрывать панель только тогда, когда окно занимает пространство"
 
-#: Settings.ui:221
+#: Settings.ui:241
 msgid "Only when the active window takes the space"
 msgstr "Только когда активное окно занимает пространство"

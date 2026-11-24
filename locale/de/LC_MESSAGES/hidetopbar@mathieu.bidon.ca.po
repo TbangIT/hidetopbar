@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hidetopbar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-09 19:23+0100\n"
+"POT-Creation-Date: 2026-11-24 11:48+0100\n"
 "PO-Revision-Date: 2021-09-14 11:49+0200\n"
 "Last-Translator: Philipp Kiemle <philipp.kiemle@gmail.com>\n"
 "Language-Team: German <>\n"
@@ -56,30 +56,53 @@ msgstr "Schwellenwert der Druckempfindlichkeit:"
 msgid "Pressure barrier's timeout:"
 msgstr "Time-Out der Druckempfindlichkeit:"
 
-#: Settings.ui:94 Settings.ui:99
+#: Settings.ui:93
+msgid "Touch & Gestures"
+msgstr ""
+
+#: Settings.ui:97
+msgid "Swipe down to reveal panel"
+msgstr ""
+
+#: Settings.ui:98
+msgid ""
+"Swipe down from top edge on touchscreens to temporarily reveal the panel"
+msgstr ""
+
+#: Settings.ui:104
+msgid "Drag & Drop to top-left corner opens overview"
+msgstr ""
+
+#: Settings.ui:105
+msgid ""
+"Drag an item to the top-left corner to switch to overview during drag and "
+"drop"
+msgstr ""
+
+#: Settings.ui:114 Settings.ui:119
 msgid "Animation"
 msgstr "Animation"
 
-#: Settings.ui:103
+#: Settings.ui:123
 msgid "Slide animation time when entering/leaving overview:"
 msgstr "Animationszeit beim Betreten/Verlassen der Übersicht:"
 
-#: Settings.ui:117
+#: Settings.ui:137
 msgid "Slide animation time when mouse approaches edge of the screen:"
 msgstr "Animationszeit, wenn die Maus den Bildschirmrand berührt:"
 
-#: Settings.ui:134 Settings.ui:139
+#: Settings.ui:154 Settings.ui:159
 msgid "Keyboard shortcuts"
 msgstr "Tastaturkürzel"
 
-#: Settings.ui:143
+#: Settings.ui:163
 msgid ""
 "Key that triggers the bar to be shown (press backspace to deactivate the "
 "shortcut):"
 msgstr ""
 "Taste, um die Leiste anzuzeigen (Rücktaste drücken um zu deaktivieren):"
 
-#: Settings.ui:183
+#: Settings.ui:203
 msgid ""
 "Delay before the bar rehides after key press (a value of 0 disables the "
 "rehiding):"
@@ -87,18 +110,18 @@ msgstr ""
 "Zeit, nach der die Leiste nach dem Drücken der Taste wieder ausgeblendet "
 "wird (beim Wert 0 wird nicht automatisch ausgeblendet):"
 
-#: Settings.ui:197
+#: Settings.ui:217
 msgid "Pressing the shortcut again rehides the panel"
 msgstr "Erneutes Drücken des Tastenkürzels versteckt die Leiste wieder"
 
-#: Settings.ui:206 Settings.ui:211
+#: Settings.ui:226 Settings.ui:231
 msgid "Intellihide"
 msgstr "Intelligentes Ausblenden"
 
-#: Settings.ui:215
+#: Settings.ui:235
 msgid "Only hide panel when a window takes the space"
 msgstr "Panel nur verstecken, wenn ein Fenster im Weg ist"
 
-#: Settings.ui:221
+#: Settings.ui:241
 msgid "Only when the active window takes the space"
 msgstr "Nur wenn das aktive Fenster im Weg ist"

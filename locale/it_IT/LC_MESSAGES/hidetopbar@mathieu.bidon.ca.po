@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-09 19:23+0100\n"
+"POT-Creation-Date: 2026-11-24 11:48+0100\n"
 "PO-Revision-Date: 2019-10-21 01:01+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -56,48 +56,73 @@ msgstr "Soglia di pressione della barriera:"
 msgid "Pressure barrier's timeout:"
 msgstr "Timeout di pressione della barriera:"
 
-#: Settings.ui:94 Settings.ui:99
+#: Settings.ui:93
+msgid "Touch & Gestures"
+msgstr "Touch e Gesture"
+
+#: Settings.ui:97
+msgid "Swipe down to reveal panel"
+msgstr "Scorrimento verso il basso per mostrare il pannello"
+
+#: Settings.ui:98
+msgid ""
+"Swipe down from top edge on touchscreens to temporarily reveal the panel"
+msgstr ""
+"Scorri verso il basso dal bordo superiore su touchscreen per mostrare temporaneamente la barra"
+
+#: Settings.ui:104
+msgid "Drag & Drop to top-left corner opens overview"
+msgstr "Trascina e rilascia nell'angolo in alto a sinistra per aprire la panoramica"
+
+#: Settings.ui:105
+msgid ""
+"Drag an item to the top-left corner to switch to overview during drag and "
+"drop"
+msgstr ""
+"Trascina un elemento nell'angolo in alto a sinistra per passare alla panoramica durante il trascinamento"
+
+#: Settings.ui:114 Settings.ui:119
 msgid "Animation"
 msgstr "Animazione"
 
-#: Settings.ui:103
+#: Settings.ui:123
 msgid "Slide animation time when entering/leaving overview:"
 msgstr "Tempo di animazione quando entri/esci dalla panoramica:"
 
-#: Settings.ui:117
+#: Settings.ui:137
 msgid "Slide animation time when mouse approaches edge of the screen:"
 msgstr ""
 "Tempo di animazione quando il mouse si avvicina al bordo dello schermo."
 
-#: Settings.ui:134 Settings.ui:139
+#: Settings.ui:154 Settings.ui:159
 msgid "Keyboard shortcuts"
 msgstr "Scorciatoie da Tastiera"
 
-#: Settings.ui:143
+#: Settings.ui:163
 msgid ""
 "Key that triggers the bar to be shown (press backspace to deactivate the "
 "shortcut):"
 msgstr "Tasto che rende visibile la barra:"
 
-#: Settings.ui:183
+#: Settings.ui:203
 msgid ""
 "Delay before the bar rehides after key press (a value of 0 disables the "
 "rehiding):"
 msgstr ""
 "Ritardo prima che la barra ritorni nascosta dopo la pressione del tasto."
 
-#: Settings.ui:197
+#: Settings.ui:217
 msgid "Pressing the shortcut again rehides the panel"
 msgstr "Premere la scorciatoia nuovamente ri-nasconde il pannello."
 
-#: Settings.ui:206 Settings.ui:211
+#: Settings.ui:226 Settings.ui:231
 msgid "Intellihide"
 msgstr "Nascondi Automaticamente"
 
-#: Settings.ui:215
+#: Settings.ui:235
 msgid "Only hide panel when a window takes the space"
 msgstr "Nascondi il pannello solo quando una finestra ne occupa lo spazio"
 
-#: Settings.ui:221
+#: Settings.ui:241
 msgid "Only when the active window takes the space"
 msgstr "Solo quando la finestra attiva occupa lo spazio"

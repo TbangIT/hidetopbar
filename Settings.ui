@@ -87,6 +87,26 @@
         </child>
       </object>
     </child>
+
+    <child>
+      <object class="AdwPreferencesGroup" id="touch_group">
+        <property name="title" translatable="yes">Touch &amp; Gestures</property>
+
+        <child>
+          <object class="AdwSwitchRow" id="row_enable_touch_swipe">
+            <property name="title" translatable="yes">Swipe down to reveal panel</property>
+            <property name="subtitle" translatable="yes">Swipe down from top edge on touchscreens to temporarily reveal the panel</property>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwSwitchRow" id="row_enable_touch_dnd_hot_corner">
+            <property name="title" translatable="yes">Drag &amp; Drop to top-left corner opens overview</property>
+            <property name="subtitle" translatable="yes">Drag an item to the top-left corner to switch to overview during drag and drop</property>
+          </object>
+        </child>
+      </object>
+    </child>
   </object>
 
   <object class="AdwPreferencesPage" id="animation">

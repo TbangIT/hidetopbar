@@ -32,6 +32,7 @@ const shellVersion = Number.parseInt(major);
 import * as Convenience from './convenience.js';
 import * as Intellihide from './intellihide.js';
 import * as DesktopIconsIntegration from './desktopIconsIntegration.js';
+import * as TouchManager from './touchManager.js';
 const DEBUG = Convenience.DEBUG;
 
 const MessageTray = Main.messageTray;
@@ -44,7 +45,8 @@ const _searchEntryBin = Main.overview._overview._controls._searchEntryBin;
 export class PanelVisibilityManager {
 
     constructor(settings) {
-        this._base_y = PanelBox.y;
+        const primary = Main.layoutManager.primaryMonitor ?? Main.layoutManager.monitors[0];
+        this._base_y = primary ? primary.y : 0;
         this._settings = settings;
         this._preventHide = false;
         this._showInOverview = true;
@@ -113,6 +115,8 @@ export class PanelVisibilityManager {
                 return GLib.SOURCE_REMOVE;
             }
         );
+
+        this._touchManager = new TouchManager.TouchManager(this, this._settings);
     }
 
     hide(animationTime, trigger) {
@@ -144,6 +148,7 @@ export class PanelVisibilityManager {
                 }
                 this._updateHotCorner(true);
                 this._setUnredirectDisabled(false);
+                this._touchManager?.syncVisibility(true);
             }
         });
     }
@@ -184,6 +189,7 @@ export class PanelVisibilityManager {
 
         this._updateHotCorner(false);
         PanelBox.show();
+        this._touchManager?.syncVisibility(false);
         this._setUnredirectDisabled(trigger != "destroy");
         if(trigger == "destroy"
            || trigger == "menu-shortcut"
@@ -451,7 +457,7 @@ export class PanelVisibilityManager {
         DEBUG("_updateStaticBox()");
         let anchor_y = PanelBox.get_pivot_point()[1];
         this._staticBox.init_rect(
-            PanelBox.x, PanelBox.y-anchor_y, PanelBox.width, PanelBox.height
+            PanelBox.x, this._base_y - anchor_y, PanelBox.width, PanelBox.height
         );
         this._intellihide.updateTargetBox(this._staticBox);
         this._desktopIconsUsableArea.resetMargins();
@@ -571,15 +577,20 @@ export class PanelVisibilityManager {
             [
                 PanelBox,
                 'notify::height',
-                this._updateSearchEntryPadding.bind(this)
+                () => {
+                    this._updateSearchEntryPadding();
+                    this._touchManager?.updateGeometry();
+                }
             ],
             [
                 Main.layoutManager,
                 'monitors-changed',
                 () => {
-                    this._base_y = PanelBox.y;
+                    const primary = Main.layoutManager.primaryMonitor ?? Main.layoutManager.monitors[0];
+                    this._base_y = primary ? primary.y : 0;
                     this._updateStaticBox();
                     this._updateSettingsMouseSensitive();
+                    this._touchManager?.onMonitorsChanged();
                     // LayoutManager._updateBoxes() has just moved PanelBox
                     // back on screen: hide it again unless it is held.
                     this._handleMenus();
@@ -641,7 +652,15 @@ export class PanelVisibilityManager {
         );
     }
 
+    _panelIsHidden() {
+        return PanelBox.y < this._base_y || !PanelBox.visible;
+    }
+
     destroy() {
+        if (this._touchManager) {
+            this._touchManager.destroy();
+            this._touchManager = null;
+        }
         this._intellihide.destroy();
         this._signalsHandler.destroy();
         Main.wm.removeKeybinding("shortcut-keybind");
